@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import cup from "./assets/cup.png";
 
 function App(): JSX.Element {
     return (
@@ -12,7 +13,7 @@ function App(): JSX.Element {
             <p>Name: Edwin</p>
             <p>&quot;Hello World&quot;</p>
             <Button onClick={() => console.log("Hello World!")}>
-                /Log Hello World/i
+                Log Hello World
             </Button>
 
             <ul>
@@ -22,8 +23,9 @@ function App(): JSX.Element {
             </ul>
 
             <img
-                src="..\public\logo192.png"
-                alt="image of react logo found in the public directory"
+                src={cup}
+                alt="image of cup"
+                style={{ height: "100px", width: "100px" }}
             />
 
             <Container>
@@ -39,7 +41,6 @@ function App(): JSX.Element {
                     </Col>
 
                     <Col>
-                        {" "}
                         <div
                             style={{
                                 height: "50px",
