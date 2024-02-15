@@ -38,7 +38,7 @@ export function shout(message: string): string {
  * mark. Do not use an `if` statement in solving this question.
  */
 export function isQuestion(message: string): boolean {
-    return message.charAt(message.length - 1) == "?" ? true : false;
+    return message.charAt(message.length - 1) === "?" ? true : false;
 }
 
 /**
@@ -47,10 +47,10 @@ export function isQuestion(message: string): boolean {
  * upper or lower case), then return `false`. Otherwise, return `null`.
  */
 export function convertYesNo(word: string): boolean | null {
-    if (word.toLowerCase() == "yes") {
+    if (word.toLowerCase() === "yes") {
         return true;
     }
-    if (word.toLowerCase() == "no") {
+    if (word.toLowerCase() === "no") {
         return false;
     }
     return null;
