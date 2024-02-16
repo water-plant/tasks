@@ -117,5 +117,17 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
+    const index: number = values.findIndex(
+        (value: number): number => value < 0
+    );
+    const findSum = (total: number, value: number): number => total + value;
+    let sum: number;
+    const newValues: number[] = [...values];
+    if (index < 0) {
+        newValues.splice(values.length, 0, values.reduce(findSum));
+    } else {
+        sum = values.slice(0, index).reduce(findSum);
+        newValues.splice(index + 1, 0, sum);
+    }
     return [];
 }
