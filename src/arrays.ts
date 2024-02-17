@@ -64,7 +64,7 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
                 ? message.toUpperCase()
                 : message
         );
-    return [];
+    return newMessages;
 };
 
 /**
@@ -102,8 +102,12 @@ export function allRGB(colors: string[]): boolean {
 export function makeMath(addends: number[]): string {
     const equation: string = addends.join("+");
     const total: number = addends.reduce(
-        (total: number, x: number): number => total + x
+        (total: number, x: number): number => total + x,
+        0
     );
+    if (equation === "") {
+        return "0=0";
+    }
     return `${total}=${equation}`;
 }
 
@@ -117,17 +121,21 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
+    if (values.length === 0) {
+        return [0];
+    }
     const index: number = values.findIndex(
-        (value: number): number => value < 0
+        (value: number): boolean => value < 0
     );
     const findSum = (total: number, value: number): number => total + value;
     let sum: number;
-    const newValues: number[] = [...values];
-    if (index < 0) {
-        newValues.splice(values.length, 0, values.reduce(findSum));
+    let newValues: number[] = [...values];
+    if (index === -1) {
+        sum = values.reduce(findSum, 0);
+        newValues = [...values, sum];
     } else {
-        sum = values.slice(0, index).reduce(findSum);
+        sum = values.slice(0, index).reduce(findSum, 0);
         newValues.splice(index + 1, 0, sum);
     }
-    return [];
+    return newValues;
 }
