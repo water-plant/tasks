@@ -30,7 +30,7 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    return question.expected === answer.trim().toLowerCase();
+    return question.expected.toLowerCase() === answer.trim().toLowerCase();
 }
 
 /**
@@ -40,6 +40,9 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
+    if (question.type === "short_answer_question") {
+        return true;
+    }
     return question.options.some((str: string): boolean => str === answer);
 }
 
@@ -71,11 +74,10 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    return `# ${question.name}\n${
-        question.type === "multiple_choice_question"
-            ? question.options.join("\n")
-            : question.body
-    }`;
+    const str: string = `# ${question.name}\n` + question.body;
+    return question.type === "multiple_choice_question"
+        ? str + "\n- " + question.options.join("\n- ")
+        : str;
 }
 
 /**
@@ -149,7 +151,8 @@ export function mergeQuestion(
         ...contentQuestion,
         id: id,
         name: name,
-        points: { points }.points
+        points: { points }.points,
+        published: false
     };
     return newQuestion;
 }
