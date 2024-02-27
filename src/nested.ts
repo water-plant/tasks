@@ -1,5 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -50,22 +51,28 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    const newQuestion = [...questions];
-    return newQuestion.map((value: Question): string => value.name);
+    return questions.map((value: Question): string => value.name);
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    return questions.reduce(
+        (total: number, value: Question): number => total + value.points,
+        0
+    );
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    return questions.reduce(
+        (total: number, value: Question): number =>
+            value.published ? total + value.points : total,
+        0
+    );
 }
 
 /***
@@ -86,7 +93,12 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    const makeStringList = (a: Question): string =>
+        `${a.id},${a.name},${a.options.length},${a.points},${a.published}`;
+    return (
+        "id,name,options,points,published\n" +
+        questions.map(makeStringList).join("\n")
+    );
 }
 
 /**
@@ -95,7 +107,15 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    const temp: Answer[] = questions.map((value: Question): Answer => {
+        return {
+            questionId: value.id,
+            text: "",
+            submitted: false,
+            correct: false
+        };
+    });
+    return temp;
 }
 
 /***
@@ -103,7 +123,13 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    return questions.map((value: Question): Question => {
+        return {
+            ...value,
+            options: [...value.options],
+            published: true
+        };
+    });
 }
 
 /***
@@ -111,7 +137,13 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const a: boolean = questions.some(
+        (value: Question): boolean => value.type === "short_answer_question"
+    );
+    const b: boolean = questions.some(
+        (value: Question): boolean => value.type === "multiple_choice_question"
+    );
+    return a !== b;
 }
 
 /***
@@ -125,11 +157,12 @@ export function addNewQuestion(
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const a: Question = makeBlankQuestion(id, name, type);
+    return [...questions, a];
 }
 
 /***
- * Consumes an array of Questions and produces a new array of Questions, where all
+ * Consumes an array of Questions and produces a new array of Quexxstions, where all
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
  * Question should be the same EXCEPT that its name should now be `newName`.
  */
@@ -138,7 +171,10 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    return questions.map(
+        (value: Question): Question =>
+            value.id !== targetId ? { ...value, name: newName } : value
+    );
 }
 
 /***
