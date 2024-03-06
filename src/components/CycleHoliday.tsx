@@ -4,11 +4,11 @@ import { Button } from "react-bootstrap";
 export function CycleHoliday(): JSX.Element {
     const [day, setDay] = useState<string>("🏮");
     const alphabetically: Record<string, string> = {
-        "🎅": "🔡", // lantern festival 🏮
-        "🔡": "🏮", // National Popcorn Day🍿
-        "🏮": "🍿", // new years eve 🎆
-        "🍿": "🎆", // christmas 🎅
-        "🎆": "🎅" // holiday B 🔡
+        "🎅": "🔡",
+        "🔡": "🏮",
+        "🏮": "🍿",
+        "🍿": "🎆",
+        "🎆": "🎅"
     };
     const chronologically: Record<string, string> = {
         "🍿": "🏮",
