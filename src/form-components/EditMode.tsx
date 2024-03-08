@@ -8,18 +8,21 @@ export function EditMode(): JSX.Element {
     return (
         <div>
             <h3>Edit Mode</h3>
-            <Form.Check
-                inline
-                type="switch"
-                id="edit"
-                label="edit"
-                checked={a}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setA(e.target.checked)
-                }
-            />
+            <div className="form-check form-switch">
+                <input
+                    className="form-check-input"
+                    type="switch"
+                    role="switch"
+                    id="edit-mode"
+                    checked={a}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setA(e.target.checked)
+                    }
+                ></input>
+            </div>
             <Form.Group>
                 <Form.Control
+                    type="text"
                     disabled={!a}
                     value={name}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -30,7 +33,7 @@ export function EditMode(): JSX.Element {
             <Form.Check
                 inline
                 type="checkbox"
-                id="edit"
+                id="student"
                 label="student?"
                 disabled={!a}
                 checked={student}
@@ -39,7 +42,6 @@ export function EditMode(): JSX.Element {
                 }
             />
             <span>
-                {" "}
                 {name} is {student ? "a" : "not a"} student.
             </span>
         </div>
